@@ -1,4 +1,4 @@
-import { Typography, Link } from "@mui/joy";
+import { Typography, Link, Box, Form } from "@mui/joy";
 import * as React from "react";
 import Card from "@mui/joy/Card";
 import CardActions from "@mui/joy/CardActions";
@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/actions/authActions";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "@mui/material";
 
 export default function Login() {
   //   const handleSubmit = async (e) => {
@@ -36,6 +37,8 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const tablet768px = useMediaQuery("(max-width: 800px)");
+  const mobile = useMediaQuery("(max-width: 425px)");
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -55,15 +58,62 @@ export default function Login() {
 
   return (
     <div className="login container-lg p-5 w-50 mt-5">
-      <Card
-        variant="outlined"
-        sx={{
-          maxHeight: "max-content",
-          maxWidth: "100%",
-          mx: "auto",
-          // to make the demo resizable
-        }}
-      >
+      <Card variant="outlined" sx={{ maxWidth: 400, mx: "auto", mt: 4, p: 3 }}>
+        <Typography
+          level="h1"
+          sx={{
+            mb: 2,
+            fontFamily: '"Grey Qo", cursive',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          Instagram
+        </Typography>
+
+        <form onSubmit={handleSubmit}>
+          <FormControl sx={{ mb: 2 }}>
+            <FormLabel>Username</FormLabel>
+            <Input placeholder="Enter your Username" name="username" />
+          </FormControl>
+          <FormControl sx={{ mb: 2 }}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              placeholder="Enter your Password"
+              name="password"
+            />
+          </FormControl>
+          <FormControl sx={{ mb: 2 }}>
+            <Checkbox label="Remember Me" />
+          </FormControl>
+          <Button type="submit" fullWidth>
+            Login
+          </Button>
+        </form>
+
+        <Box
+          sx={{
+            mb: 2,
+            fontFamily: '"Grey Qo", cursive',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography level="title-lg" sx={{ mb: 2 }}>
+            Don't have an account ?{" "}
+            <Link href="/register" underline="none">
+              Sign Up
+            </Link>
+          </Typography>
+        </Box>
+      </Card>
+
+      {/* <Card variant="outlined" sx={{ maxWidth: 400, mx: "auto", mt: 4, p: 3 }}>
         <Typography level="title-lg">Login to Instagram</Typography>
         <Divider inset="none" />
         <CardContent
@@ -73,8 +123,18 @@ export default function Login() {
             gap: 1.5,
           }}
         >
-          <form onSubmit={handleSubmit}>
-            <FormControl sx={{ gridColumn: "1/-1" }}>
+          <Box
+            sx={{
+              width: tablet768px ? "100%" : "100%",
+            }}
+          >
+             <form> 
+            <FormControl
+              sx={{ gridColumn: "1/-1" }}
+              component="form"
+              onSubmit={handleSubmit}
+              className="login-form"
+            >
               <FormLabel>Username</FormLabel>
               <Input
                 type="text"
@@ -96,9 +156,10 @@ export default function Login() {
                 Login
               </Button>
             </CardActions>
-          </form>
+           </form> 
+          </Box>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }

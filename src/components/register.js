@@ -1,4 +1,4 @@
-import { Typography, Link } from "@mui/joy";
+import { Typography, Link, Box } from "@mui/joy";
 import * as React from "react";
 import Card from "@mui/joy/Card";
 import CardActions from "@mui/joy/CardActions";
@@ -41,7 +41,64 @@ export default function Register() {
 
   return (
     <div className="register container-lg p-5 w-50 mt-5">
-      <Card
+      <Card variant="outlined" sx={{ maxWidth: 400, mx: "auto", mt: 4, p: 3 }}>
+        <Typography
+          level="h1"
+          sx={{
+            mb: 2,
+            fontFamily: '"Grey Qo", cursive',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          Instagram
+        </Typography>
+
+        <form onSubmit={registerUserToBackend}>
+          <FormControl sx={{ mb: 2 }}>
+            <FormLabel>Username</FormLabel>
+            <Input placeholder="Enter your Username" name="username" />
+          </FormControl>
+          <FormControl sx={{ mb: 2 }}>
+            <FormLabel>Email</FormLabel>
+            <Input placeholder="Enter your Email" name="email" />
+          </FormControl>
+          <FormControl sx={{ mb: 2 }}>
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              placeholder="Enter your Password"
+              name="password"
+            />
+          </FormControl>
+          <FormControl sx={{ mb: 2 }}></FormControl>
+          <Button type="submit" fullWidth>
+            Sign Up
+          </Button>
+        </form>
+
+        <Box
+          sx={{
+            mb: 2,
+            fontFamily: '"Grey Qo", cursive',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography level="title-lg" sx={{ mb: 2 }}>
+            Have an account ?{" "}
+            <Link href="/login" underline="none">
+              Login
+            </Link>
+          </Typography>
+        </Box>
+      </Card>
+
+      {/* <Card
         variant="outlined"
         sx={{
           maxHeight: "max-content",
@@ -86,7 +143,7 @@ export default function Register() {
             </CardActions>
           </form>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 }

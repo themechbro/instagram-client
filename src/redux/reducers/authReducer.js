@@ -12,7 +12,6 @@ const initialState = {
 };
 
 const authReducer = (state = initialState, action) => {
-  console.log("Reducer received action:", action);
   switch (action.type) {
     case LOGIN_SUCCESS:
       return {

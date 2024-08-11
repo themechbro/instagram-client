@@ -39,10 +39,11 @@ export const loginUser = (username, password) => {
       console.log("Login response:", response);
 
       if (response.status === 200) {
-        const { username, email, id } = response.data.user;
+        const { id, username, email } = response.data.user;
+
+        dispatch(loginSuccess(username, id, email));
         const { token } = response.data;
         localStorage.setItem("token", token);
-        dispatch(loginSuccess(username, id, email));
       } else {
         dispatch(loginFailure("Login failed"));
       }
