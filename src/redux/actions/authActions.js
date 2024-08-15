@@ -36,7 +36,7 @@ export const loginUser = (username, password) => {
         { withCredentials: true }
       );
 
-      console.log("Login response:", response);
+      console.log("Login response:", response.data);
 
       if (response.status === 200) {
         const { id, username, email } = response.data.user;
