@@ -1,15 +1,16 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Box, Typography } from "@mui/joy";
+import { Box, Typography, Link } from "@mui/joy";
 import Avatar from "@mui/material/Avatar";
 import { useSelector, useDispatch } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { logoutUser } from "../../redux/actions/authActions";
 import { useMediaQuery } from "@mui/material";
-
+import Sidebar from "./sidebar/sidebar";
 export default function Appbar() {
-  const userDetail = useSelector((state) => state.auth.loggedinDetail);
+  const userDetail = useSelector((state) => state.auth.user.username);
+
   const tablet768px = useMediaQuery("(min-width: 800px)");
 
   const mobile = useMediaQuery("(min-width: 425px)");
@@ -33,11 +34,16 @@ export default function Appbar() {
               : "space-evenly",
           }}
         >
+          <Sidebar />
           <Typography
             level="title-lg"
             sx={{
               fontSize: mobile ? "18px" : tablet768px ? "20px" : "24px",
+              fontFamily: '"Grey Qo", cursive',
             }}
+            component={Link}
+            href="/home"
+            underline="none"
           >
             Instagram
           </Typography>

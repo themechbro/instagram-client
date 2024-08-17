@@ -1,6 +1,5 @@
 import { Typography, Box } from "@mui/joy";
 import React from "react";
-import { useState, useEffect } from "react";
 import Appbar from "./appbar";
 import Post from "./post";
 import Alerts from "./alerts/alerts";
