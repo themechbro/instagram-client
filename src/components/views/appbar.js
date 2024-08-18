@@ -1,27 +1,19 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Box, Typography, Link } from "@mui/joy";
+import { Typography, Link } from "@mui/joy";
 import Avatar from "@mui/material/Avatar";
 import { useSelector, useDispatch } from "react-redux";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { logoutUser } from "../../redux/actions/authActions";
 import { useMediaQuery } from "@mui/material";
 import Sidebar from "./sidebar/sidebar";
 export default function Appbar() {
   const userDetail = useSelector((state) => state.auth.user.username);
-
   const tablet768px = useMediaQuery("(min-width: 800px)");
-
   const mobile = useMediaQuery("(min-width: 425px)");
-  const dispatch = useDispatch();
 
-  const handleClick = () => {
-    dispatch(logoutUser());
-  };
   return (
     <div className="appbar">
-      <AppBar>
+      <AppBar sx={{ backgroundColor: "#FFF" }}>
         <Toolbar
           sx={{
             display: "flex",
@@ -38,8 +30,10 @@ export default function Appbar() {
           <Typography
             level="title-lg"
             sx={{
-              fontSize: mobile ? "18px" : tablet768px ? "20px" : "24px",
+              fontSize: mobile ? "18px" : tablet768px ? "25px" : "30px",
               fontFamily: '"Grey Qo", cursive',
+              color: "#242424",
+              fontWeight: "bold",
             }}
             component={Link}
             href="/home"
@@ -61,13 +55,6 @@ export default function Appbar() {
             >
               {userDetail?.charAt(0).toUpperCase()}
             </Avatar>
-
-            <LogoutIcon
-              onClick={handleClick}
-              sx={{
-                fontSize: mobile ? "18px" : tablet768px ? "20px" : "24px",
-              }}
-            />
           </div>
         </Toolbar>
       </AppBar>
