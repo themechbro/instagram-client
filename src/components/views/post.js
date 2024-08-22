@@ -17,6 +17,7 @@ import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded
 import { useMediaQuery } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { format } from "date-fns";
 
 export default function Post() {
   const tablet768px = useMediaQuery("(max-width: 800px)");
@@ -33,60 +34,127 @@ export default function Post() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      {posts.map((post) => (
-        <Card
-          key={post._id}
-          variant="outlined"
-          sx={{ width: 600, height: "auto" }}
-        >
-          <CardContent sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Box sx={{ position: "relative" }}>
-              <IconButton
+      {posts.map((post) => {
+        const fallbackDate = new Date();
+        const formattedDate = post.createdAt
+          ? format(new Date(post.createdAt), "MMM dd, yyyy HH:mm")
+          : format(fallbackDate, "MMM dd, yyyy HH:mm");
+        return (
+          <Card
+            key={post._id}
+            variant="outlined"
+            sx={{
+              width: mobile ? "100%" : tablet768px ? "90%" : 600,
+              "--Card-radius": (theme) => theme.vars.radius.xs,
+              mx: "auto", // Center card horizontally
+            }}
+          >
+            <CardContent
+              orientation="horizontal"
+              sx={{
+                alignItems: "center",
+                gap: 1,
+                flexDirection: mobile ? "column" : "row",
+                textAlign: mobile ? "center" : "left",
+              }}
+            >
+              <Box
+                sx={{
+                  position: "relative",
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    m: "-2px",
+                    borderRadius: "50%",
+                    background:
+                      "linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)",
+                  },
+                }}
+              >
+                <Avatar
+                  size={mobile ? "md" : "sm"}
+                  sx={{
+                    p: 0.5,
+                    border: "2px solid",
+                    borderColor: "background.body",
+                  }}
+                >
+                  {post.user.username.charAt(0).toUpperCase()}
+                </Avatar>
+              </Box>
+              <Typography fontWeight="lg">
+                {post.user.username || "Unknown User"} {/* Display username */}
+              </Typography>
+              <MoreHoriz />
+              {/* <IconButton
                 variant="plain"
                 color="neutral"
                 size="sm"
                 sx={{ ml: "auto" }}
-              >
-                <MoreHoriz />
-              </IconButton>
-            </Box>
-            <Typography fontWeight="lg">
-              {" "}
-              {post.user.username || "Unknown User"} {/* Display username */}
-            </Typography>
-          </CardContent>
-          <CardOverflow>
-            <AspectRatio>
-              <img src={post.image[0].url} alt={post.caption} loading="lazy" />
-            </AspectRatio>
-          </CardOverflow>
-          <CardContent>
-            <Box sx={{ width: 0, display: "flex", gap: 0.5 }}>
-              <IconButton variant="plain" color="neutral" size="sm">
-                <FavoriteBorder />
-              </IconButton>
-              <IconButton variant="plain" color="neutral" size="sm">
-                <ModeCommentOutlined />
-              </IconButton>
-              <IconButton variant="plain" color="neutral" size="sm">
-                <SendOutlined />
-              </IconButton>
-              <IconButton variant="plain" color="neutral" size="sm">
-                <BookmarkBorderRoundedIcon />
-              </IconButton>
-            </Box>
-            <Typography fontSize="sm">
-              <Typography fontWeight="lg">{post.caption}</Typography>
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              <Typography fontSize="sm">8.1M Likes</Typography>
-              <Typography fontSize="10px" sx={{ color: "text.tertiary" }}>
-                2 DAYS AGO
+              /> */}
+            </CardContent>
+            <CardOverflow>
+              <AspectRatio>
+                <img
+                  src={post.image[0].url}
+                  alt={post.caption}
+                  loading="lazy"
+                />
+              </AspectRatio>
+            </CardOverflow>
+            <CardContent>
+              <Box sx={{ width: 0, display: "flex", gap: 0.5 }}>
+                <IconButton
+                  variant="plain"
+                  color="neutral"
+                  size={mobile ? "md" : "sm"}
+                >
+                  <FavoriteBorder />
+                </IconButton>
+                <IconButton
+                  variant="plain"
+                  color="neutral"
+                  size={mobile ? "md" : "sm"}
+                >
+                  <ModeCommentOutlined />
+                </IconButton>
+                <IconButton
+                  variant="plain"
+                  color="neutral"
+                  size={mobile ? "md" : "sm"}
+                >
+                  <SendOutlined />
+                </IconButton>
+                <IconButton
+                  variant="plain"
+                  color="neutral"
+                  size={mobile ? "md" : "sm"}
+                >
+                  <BookmarkBorderRoundedIcon />
+                </IconButton>
+              </Box>
+              <Typography fontSize={mobile ? "body-xs" : "body-sm"}>
+                <Typography fontWeight="lg">{post.caption}</Typography>
               </Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      ))}
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                <Typography fontSize={mobile ? "body-xs" : "body-sm"}>
+                  8.1M Likes
+                </Typography>
+                <Typography
+                  fontSize={mobile ? "caption" : "body-xs"}
+                  sx={{ color: "text.tertiary" }}
+                >
+                  {formattedDate}
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        );
+      })}
     </Box>
   );
 }

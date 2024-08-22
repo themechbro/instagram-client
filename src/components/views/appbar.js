@@ -13,7 +13,13 @@ export default function Appbar() {
 
   return (
     <div className="appbar">
-      <AppBar sx={{ backgroundColor: "#FFF" }}>
+      <AppBar
+        sx={{
+          backgroundColor: "rgba(255, 255, 255, 0.1)", // Semi-transparent white
+          backdropFilter: "blur(10px)", // Glass effect
+          borderBottom: "1px solid rgba(255, 255, 255, 0.2)", // Optional: Add border for more contrast
+        }}
+      >
         <Toolbar
           sx={{
             display: "flex",

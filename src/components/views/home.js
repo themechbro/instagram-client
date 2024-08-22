@@ -4,9 +4,13 @@ import Appbar from "./appbar";
 import Post from "./post";
 import Alerts from "./alerts/alerts";
 import AnimationSkeleton from "./skeleton/skeleton";
+import Suggestions from "./suggestions/suggestion";
+import { useMediaQuery } from "@mui/material";
 
 export default function Home() {
   const [showCard, setShowCard] = React.useState(true);
+  const tablet768px = useMediaQuery("(min-width: 800px)");
+  const mobile = useMediaQuery("(min-width: 425px)");
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,35 +26,51 @@ export default function Home() {
       <Appbar />
       <div className="container p-5 mt-5">
         <Alerts />
-        {showCard ? (
-          <Box
-            sx={{
-              backgroundColor: "#fff",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 5,
-              paddingTop: 6,
-            }}
-          >
-            <AnimationSkeleton />
-          </Box>
-        ) : (
-          <Box
-            sx={{
-              backgroundColor: "#fff",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 5,
-              paddingTop: 6,
-            }}
-          >
-            <Post />
-          </Box>
-        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            padding: 5,
+          }}
+        >
+          {showCard ? (
+            <Box
+              sx={{
+                backgroundColor: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 5,
+                paddingTop: 6,
+              }}
+            >
+              <AnimationSkeleton />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                backgroundColor: "#fff",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 5,
+                paddingTop: 6,
+              }}
+            >
+              <Post />
+            </Box>
+          )}
+          {mobile ? (
+            <div></div>
+          ) : tablet768px ? (
+            <Suggestions />
+          ) : (
+            <Suggestions />
+          )}
+        </Box>
       </div>
     </div>
   );
