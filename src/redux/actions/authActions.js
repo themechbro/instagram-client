@@ -3,6 +3,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOAD_USER = "LOAD_USER";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const DARK_MODE = "DARK_MODE";
 
 export const loginSuccess = (userDetails) => ({
   type: LOGIN_SUCCESS,
@@ -59,34 +60,6 @@ export const loginUser = (username, password) => {
   };
 };
 
-// export const loginUser = (username, password) => {
-//   return async (dispatch) => {
-//     try {
-//       const response = await axios.post(
-//         "http://localhost:3001/login",
-//         {
-//           username: username,
-//           password,
-//         },
-//         { withCredentials: true }
-//       );
-
-//       if (response.status === 200) {
-//         const { id, username, email } = response.data.user;
-
-//         dispatch(loginSuccess(username, id, email));
-//         const { token } = response.data;
-//         localStorage.setItem("token", token);
-//       } else {
-//         dispatch(loginFailure("Login failed"));
-//       }
-//     } catch (error) {
-//       console.error("Error during login:", error);
-//       dispatch(loginFailure(error.message));
-//     }
-//   };
-// };
-
 export const logoutUser = () => {
   return async (dispatch) => {
     try {
@@ -137,26 +110,9 @@ export const checkAuthStatus = () => {
   };
 };
 
-// export const checkAuthStatus = () => {
-//   return async (dispatch) => {
-//     const token = localStorage.getItem("token");
-//     if (token) {
-//       try {
-//         const response = await axios.get(
-//           "http://localhost:3001/check-session",
-//           {
-//             headers: { Authorization: `Bearer ${token}` },
-//             withCredentials: true,
-//           }
-//         );
-//         if (response.status === 200) {
-//           const { username, email, id } = response.data.user;
-//           dispatch(loadUser({ username, email, id }));
-//         }
-//       } catch (error) {
-//         console.error("Error verifying token:", error);
-//         localStorage.removeItem("token");
-//       }
-//     }
-//   };
-// };
+export const toggleDarkMode = (isDarkMode) => {
+  return {
+    type: DARK_MODE,
+    payload: isDarkMode,
+  };
+};

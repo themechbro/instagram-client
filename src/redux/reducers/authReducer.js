@@ -3,6 +3,7 @@ import {
   LOGIN_FAILURE,
   LOAD_USER,
   LOGOUT_SUCCESS,
+  DARK_MODE,
 } from "../actions/authActions";
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   error: null,
   user: {},
   isLoading: false,
+  isDarkMode: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -53,6 +55,11 @@ const authReducer = (state = initialState, action) => {
         isLoggedIn: true, // Mark as logged in if the user is loaded
         user: action.payload, // Store the user details from session
         error: null, // Clear any previous error
+      };
+    case DARK_MODE:
+      return {
+        ...state,
+        isDarkMode: action.payload,
       };
     default:
       return state;

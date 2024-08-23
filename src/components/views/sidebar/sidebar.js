@@ -19,8 +19,11 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import CreatePost from "../create/createPost";
 import { useSelector, useDispatch } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { logoutUser } from "../../../redux/actions/authActions";
+import { logoutUser, toggleDarkMode } from "../../../redux/actions/authActions";
 import { useMediaQuery } from "@mui/material";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import Switch from "@mui/joy/Switch";
 
 export default function Sidebar() {
   const tablet768px = useMediaQuery("(min-width: 800px)");
@@ -29,9 +32,17 @@ export default function Sidebar() {
   const [open, setOpen] = React.useState(false);
   const [createPostOpen, setCreatePostOpen] = React.useState(false);
   const user = useSelector((state) => state.auth.user);
+  const [checked, setChecked] = React.useState(false);
+  const isDarkMode = useSelector((state) => state.auth.isDarkMode);
 
   const handleClick = () => {
     dispatch(logoutUser());
+    dispatch(toggleDarkMode(!isDarkMode));
+  };
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+    dispatch(toggleDarkMode(!isDarkMode));
   };
 
   return (
@@ -45,7 +56,7 @@ export default function Sidebar() {
         onClose={() => setOpen(false)}
         PaperProps={{
           sx: {
-            bgcolor: "rgba(0, 0, 0, 1)", // Set solid black background
+            backgroundColor: isDarkMode ? "black" : "#FFF",
             color: "white", // Set text color to white for better visibility
             width: 300, // Adjust width of the Drawer if necessary
           },
@@ -149,10 +160,11 @@ export default function Sidebar() {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItem: "flex-end",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItem: "center",
               padding: 2,
+              width: 100,
             }}
           >
             <LogoutIcon
@@ -162,6 +174,18 @@ export default function Sidebar() {
                 cursor: "pointer",
                 color: "#242424",
               }}
+            />
+
+            <Switch
+              sx={{
+                "--Switch-trackRadius": "21px",
+                "--Switch-trackWidth": "48px",
+                "--Switch-trackHeight": "20px",
+                padding: 2,
+              }}
+              checked={checked}
+              onChange={handleChange}
+              startDecorator={checked ? <DarkModeIcon /> : <LightModeIcon />}
             />
           </Box>
         </Box>

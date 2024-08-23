@@ -6,11 +6,13 @@ import Alerts from "./alerts/alerts";
 import AnimationSkeleton from "./skeleton/skeleton";
 import Suggestions from "./suggestions/suggestion";
 import { useMediaQuery } from "@mui/material";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   const [showCard, setShowCard] = React.useState(true);
-  const tablet768px = useMediaQuery("(min-width: 800px)");
-  const mobile = useMediaQuery("(min-width: 425px)");
+  const tablet768px = useMediaQuery("(max-width: 800px)");
+  const mobile = useMediaQuery("(max-width: 425px)");
+  const isDarkMode = useSelector((state) => state.auth.isDarkMode);
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,7 +24,11 @@ export default function Home() {
   }, []); // Empty array ensures this effect runs only once after mount
 
   return (
-    <div>
+    <Box
+      sx={{
+        backgroundColor: isDarkMode ? "black" : "#FFF",
+      }}
+    >
       <Appbar />
       <div className="container p-5 mt-5">
         <Alerts />
@@ -32,6 +38,7 @@ export default function Home() {
             flexDirection: "row",
             justifyContent: "space-evenly",
             padding: 5,
+            backgroundColor: isDarkMode ? "black" : "#FFF",
           }}
         >
           {showCard ? (
@@ -72,7 +79,7 @@ export default function Home() {
           )}
         </Box>
       </div>
-    </div>
+    </Box>
   );
 }
 

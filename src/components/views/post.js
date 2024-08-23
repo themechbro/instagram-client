@@ -18,11 +18,13 @@ import { useMediaQuery } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
+import { useSelector } from "react-redux";
 
 export default function Post() {
   const tablet768px = useMediaQuery("(max-width: 800px)");
   const mobile = useMediaQuery("(max-width: 425px)");
   const [posts, setPosts] = useState([]);
+  const isDarkMode = useSelector((state) => state.auth.isDarkMode);
 
   useEffect(() => {
     // Fetch posts from the server
@@ -33,7 +35,14 @@ export default function Post() {
   }, []);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        backgroundColor: isDarkMode ? "black" : "#FFF",
+      }}
+    >
       {posts.map((post) => {
         const fallbackDate = new Date();
         const formattedDate = post.createdAt
@@ -46,7 +55,8 @@ export default function Post() {
             sx={{
               width: mobile ? "100%" : tablet768px ? "90%" : 600,
               "--Card-radius": (theme) => theme.vars.radius.xs,
-              mx: "auto", // Center card horizontally
+              // mx: "auto", // Center card horizontally
+              backgroundColor: isDarkMode ? "black" : "#FFF",
             }}
           >
             <CardContent
@@ -86,16 +96,13 @@ export default function Post() {
                   {post.user.username.charAt(0).toUpperCase()}
                 </Avatar>
               </Box>
-              <Typography fontWeight="lg">
+              <Typography
+                fontWeight="lg"
+                sx={{ color: isDarkMode ? "#FFF" : "black" }}
+              >
                 {post.user.username || "Unknown User"} {/* Display username */}
               </Typography>
               <MoreHoriz />
-              {/* <IconButton
-                variant="plain"
-                color="neutral"
-                size="sm"
-                sx={{ ml: "auto" }}
-              /> */}
             </CardContent>
             <CardOverflow>
               <AspectRatio>
@@ -112,6 +119,7 @@ export default function Post() {
                   variant="plain"
                   color="neutral"
                   size={mobile ? "md" : "sm"}
+                  sx={{ color: isDarkMode ? "#FFF" : "black" }}
                 >
                   <FavoriteBorder />
                 </IconButton>
@@ -119,6 +127,7 @@ export default function Post() {
                   variant="plain"
                   color="neutral"
                   size={mobile ? "md" : "sm"}
+                  sx={{ color: isDarkMode ? "#FFF" : "black" }}
                 >
                   <ModeCommentOutlined />
                 </IconButton>
@@ -126,6 +135,7 @@ export default function Post() {
                   variant="plain"
                   color="neutral"
                   size={mobile ? "md" : "sm"}
+                  sx={{ color: isDarkMode ? "#FFF" : "black" }}
                 >
                   <SendOutlined />
                 </IconButton>
@@ -133,20 +143,32 @@ export default function Post() {
                   variant="plain"
                   color="neutral"
                   size={mobile ? "md" : "sm"}
+                  sx={{ color: isDarkMode ? "#FFF" : "black" }}
                 >
                   <BookmarkBorderRoundedIcon />
                 </IconButton>
               </Box>
               <Typography fontSize={mobile ? "body-xs" : "body-sm"}>
-                <Typography fontWeight="lg">{post.caption}</Typography>
+                <Typography
+                  fontWeight="lg"
+                  sx={{ color: isDarkMode ? "#FFF" : "black" }}
+                >
+                  {post.caption}
+                </Typography>
               </Typography>
               <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                <Typography fontSize={mobile ? "body-xs" : "body-sm"}>
+                <Typography
+                  fontSize={mobile ? "body-xs" : "body-sm"}
+                  sx={{ color: isDarkMode ? "#FFF" : "black" }}
+                >
                   8.1M Likes
                 </Typography>
                 <Typography
                   fontSize={mobile ? "caption" : "body-xs"}
-                  sx={{ color: "text.tertiary" }}
+                  sx={{
+                    color: "text.tertiary",
+                    color: isDarkMode ? "#FFF" : "black",
+                  }}
                 >
                   {formattedDate}
                 </Typography>

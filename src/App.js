@@ -19,6 +19,7 @@ function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
 
+
   const [loadingAfterLogin, setLoadingAfterLogin] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true); // For initial loading state
 

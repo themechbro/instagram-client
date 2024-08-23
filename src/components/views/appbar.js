@@ -10,14 +10,15 @@ export default function Appbar() {
   const userDetail = useSelector((state) => state.auth.user.username);
   const tablet768px = useMediaQuery("(min-width: 800px)");
   const mobile = useMediaQuery("(min-width: 425px)");
+  const isDarkMode = useSelector((state) => state.auth.isDarkMode);
 
   return (
     <div className="appbar">
       <AppBar
         sx={{
-          backgroundColor: "rgba(255, 255, 255, 0.1)", // Semi-transparent white
-          backdropFilter: "blur(10px)", // Glass effect
-          borderBottom: "1px solid rgba(255, 255, 255, 0.2)", // Optional: Add border for more contrast
+          backgroundColor: isDarkMode
+            ? "rgb(18, 18, 18)"
+            : "rgb(255, 255, 255)", // Semi-transparent white
         }}
       >
         <Toolbar
@@ -38,7 +39,7 @@ export default function Appbar() {
             sx={{
               fontSize: mobile ? "18px" : tablet768px ? "25px" : "30px",
               fontFamily: '"Grey Qo", cursive',
-              color: "#242424",
+              color: isDarkMode ? "#FFF" : "#242424",
               fontWeight: "bold",
             }}
             component={Link}
