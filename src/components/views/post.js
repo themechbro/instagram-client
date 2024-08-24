@@ -19,12 +19,17 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
+import ViewPostModal from "./viewpost/viewPost";
+import { useDispatch } from "react-redux";
+import { viewPostforComment } from "../../redux/actions/authActions";
 
 export default function Post() {
   const tablet768px = useMediaQuery("(max-width: 800px)");
   const mobile = useMediaQuery("(max-width: 425px)");
+  const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
   const isDarkMode = useSelector((state) => state.auth.isDarkMode);
+  const [viewPost, setViewPost] = React.useState(false);
 
   useEffect(() => {
     // Fetch posts from the server
@@ -33,6 +38,11 @@ export default function Post() {
       .then((response) => setPosts(response.data))
       .catch((error) => console.error("Error fetching posts:", error));
   }, []);
+
+  const handleViewPost = (post) => {
+    setViewPost(true); // Open the modal
+    dispatch(viewPostforComment(post)); // Dispatch the specific post data
+  };
 
   return (
     <Box
@@ -128,6 +138,8 @@ export default function Post() {
                   color="neutral"
                   size={mobile ? "md" : "sm"}
                   sx={{ color: isDarkMode ? "#FFF" : "black" }}
+                  centerRipple="false"
+                  onClick={() => handleViewPost(post)}
                 >
                   <ModeCommentOutlined />
                 </IconButton>
@@ -177,6 +189,7 @@ export default function Post() {
           </Card>
         );
       })}
+      <ViewPostModal open={viewPost} setOpen={setViewPost} />
     </Box>
   );
 }

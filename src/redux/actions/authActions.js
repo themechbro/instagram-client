@@ -4,6 +4,7 @@ export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOAD_USER = "LOAD_USER";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const DARK_MODE = "DARK_MODE";
+export const VIEW_POST = "VIEW_POST";
 
 export const loginSuccess = (userDetails) => ({
   type: LOGIN_SUCCESS,
@@ -114,5 +115,12 @@ export const toggleDarkMode = (isDarkMode) => {
   return {
     type: DARK_MODE,
     payload: isDarkMode,
+  };
+};
+
+export const viewPostforComment = (postDetail) => {
+  return {
+    type: VIEW_POST,
+    payload: postDetail,
   };
 };

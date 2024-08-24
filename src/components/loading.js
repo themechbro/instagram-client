@@ -24,7 +24,14 @@ export default function Loading() {
             WebkitTextFillColor: "transparent",
           }}
         />
-        <Typography level="title-lg">Made By Adrin</Typography>
+        <Typography
+          level="title-lg"
+          sx={{
+            color: "#000",
+          }}
+        >
+          Made By Adrin
+        </Typography>
       </Box>
     </div>
   );

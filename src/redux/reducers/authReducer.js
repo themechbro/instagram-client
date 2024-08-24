@@ -4,6 +4,7 @@ import {
   LOAD_USER,
   LOGOUT_SUCCESS,
   DARK_MODE,
+  VIEW_POST,
 } from "../actions/authActions";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   user: {},
   isLoading: false,
   isDarkMode: false,
+  viewPost: {},
 };
 
 const authReducer = (state = initialState, action) => {
@@ -60,6 +62,12 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isDarkMode: action.payload,
+      };
+
+    case VIEW_POST:
+      return {
+        ...state,
+        viewPost: action.payload,
       };
     default:
       return state;

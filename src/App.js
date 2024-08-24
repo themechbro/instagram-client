@@ -1,4 +1,3 @@
-import "./App.css";
 import Loading from "./components/loading";
 import Login from "./components/login";
 import Register from "./components/register";
@@ -14,11 +13,11 @@ import Home from "./components/views/home";
 import { useSelector, useDispatch } from "react-redux";
 import { checkAuthStatus } from "./redux/actions/authActions";
 import NotFound from "./components/views/notFound/notFound";
+import { Box } from "@mui/joy";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
-
 
   const [loadingAfterLogin, setLoadingAfterLogin] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true); // For initial loading state
@@ -40,7 +39,7 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <Box className="App">
         <Routes>
           {/* Initial route shows loading and then redirects to login */}
           <Route
@@ -80,7 +79,7 @@ function App() {
           {/* NotFound Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
+      </Box>
     </Router>
   );
 }
