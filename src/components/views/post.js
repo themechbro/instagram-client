@@ -10,6 +10,7 @@ import IconButton from "@mui/joy/IconButton";
 import Input from "@mui/joy/Input";
 import Typography from "@mui/joy/Typography";
 import MoreHoriz from "@mui/icons-material/MoreHoriz";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import ModeCommentOutlined from "@mui/icons-material/ModeCommentOutlined";
 import SendOutlined from "@mui/icons-material/SendOutlined";
@@ -22,6 +23,7 @@ import { useSelector } from "react-redux";
 import ViewPostModal from "./viewpost/viewPost";
 import { useDispatch } from "react-redux";
 import { viewPostforComment } from "../../redux/actions/authActions";
+import MobileDrawer from "./viewpost/swipeableDrawer";
 
 export default function Post() {
   const tablet768px = useMediaQuery("(max-width: 800px)");
@@ -30,6 +32,7 @@ export default function Post() {
   const [posts, setPosts] = useState([]);
   const isDarkMode = useSelector((state) => state.auth.isDarkMode);
   const [viewPost, setViewPost] = React.useState(false);
+  const userId = useSelector((state) => state.auth.user.id);
 
   useEffect(() => {
     // Fetch posts from the server
@@ -58,6 +61,7 @@ export default function Post() {
         const formattedDate = post.createdAt
           ? format(new Date(post.createdAt), "MMM dd, yyyy HH:mm")
           : format(fallbackDate, "MMM dd, yyyy HH:mm");
+
         return (
           <Card
             key={post._id}
@@ -131,14 +135,13 @@ export default function Post() {
                   size={mobile ? "md" : "sm"}
                   sx={{ color: isDarkMode ? "#FFF" : "black" }}
                 >
-                  <FavoriteBorder />
+                  <FavoriteIcon />
                 </IconButton>
                 <IconButton
                   variant="plain"
                   color="neutral"
                   size={mobile ? "md" : "sm"}
                   sx={{ color: isDarkMode ? "#FFF" : "black" }}
-                  centerRipple="false"
                   onClick={() => handleViewPost(post)}
                 >
                   <ModeCommentOutlined />
@@ -173,7 +176,7 @@ export default function Post() {
                   fontSize={mobile ? "body-xs" : "body-sm"}
                   sx={{ color: isDarkMode ? "#FFF" : "black" }}
                 >
-                  8.1M Likes
+                  {/* {post.likes.length} Likes */}
                 </Typography>
                 <Typography
                   fontSize={mobile ? "caption" : "body-xs"}
@@ -189,7 +192,12 @@ export default function Post() {
           </Card>
         );
       })}
-      <ViewPostModal open={viewPost} setOpen={setViewPost} />
+
+      {mobile ? (
+        <MobileDrawer open={viewPost} setOpen={setViewPost} />
+      ) : (
+        <ViewPostModal open={viewPost} setOpen={setViewPost} />
+      )}
     </Box>
   );
 }

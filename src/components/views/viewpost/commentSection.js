@@ -20,8 +20,11 @@ import ListItem from "@mui/joy/ListItem";
 import ListItemContent from "@mui/joy/ListItemContent";
 import { formatDistanceToNow } from "date-fns";
 import { Grid } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 
 export default function CommentSection() {
+  const tablet768px = useMediaQuery("(max-width: 800px)");
+  const mobile = useMediaQuery("(max-width: 425px)");
   const [italic, setItalic] = React.useState(false);
   const [fontWeight, setFontWeight] = React.useState("normal");
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -30,6 +33,7 @@ export default function CommentSection() {
   const userId = useSelector((state) => state.auth.user.id);
   const postId = useSelector((state) => state.auth.viewPost.id);
   const [error, setError] = React.useState("");
+  const isDarkMode = useSelector((state) => state.auth.isDarkMode);
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -88,6 +92,7 @@ export default function CommentSection() {
         level="h1"
         sx={{
           fontFamily: "Roboto Condensed, sans-serif",
+          color: isDarkMode ? "#FFF" : "black",
         }}
       >
         Comments
@@ -110,6 +115,8 @@ export default function CommentSection() {
                 variant="soft"
                 sx={{
                   borderRadius: "sm",
+                  color: isDarkMode ? "#FFF" : "black",
+                  backgroundColor: isDarkMode ? "black" : "#FFF",
                 }}
               >
                 <ListItemDecorator
@@ -124,6 +131,7 @@ export default function CommentSection() {
                     sx={{
                       fontFamily: "Roboto Condensed",
                       fontWeight: "900",
+                      color: isDarkMode ? "#FFF" : "black",
                     }}
                     component={Grid}
                     xs={5}
@@ -136,8 +144,16 @@ export default function CommentSection() {
                   xs={7}
                   sx={{ padding: 1, marginBottom: 2 }}
                 >
-                  <Typography level="body-lg">{item.content}</Typography>
-                  <Typography level="body-sm">
+                  <Typography
+                    level="body-lg"
+                    sx={{ color: isDarkMode ? "#FFF" : "black" }}
+                  >
+                    {item.content}
+                  </Typography>
+                  <Typography
+                    level="body-sm"
+                    sx={{ color: isDarkMode ? "#FFF" : "black" }}
+                  >
                     {formatDistanceToNow(new Date(item.createdAt), {
                       addSuffix: true,
                     })}
@@ -151,7 +167,9 @@ export default function CommentSection() {
 
       <Box>
         <FormControl error={!!error}>
-          <FormLabel>Your comment</FormLabel>
+          <FormLabel sx={{ color: isDarkMode ? "#FFF" : "black" }}>
+            Your comment
+          </FormLabel>
           <Textarea
             error={error ? true : false}
             placeholder="Type something here…"

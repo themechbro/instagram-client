@@ -26,8 +26,8 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import Switch from "@mui/joy/Switch";
 
 export default function Sidebar() {
-  const tablet768px = useMediaQuery("(min-width: 800px)");
-  const mobile = useMediaQuery("(min-width: 425px)");
+  const tablet768px = useMediaQuery("(max-width: 768px)");
+  const mobile = useMediaQuery("(max-width: 425px)");
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [createPostOpen, setCreatePostOpen] = React.useState(false);
@@ -37,7 +37,7 @@ export default function Sidebar() {
 
   const handleClick = () => {
     dispatch(logoutUser());
-    dispatch(toggleDarkMode(!isDarkMode));
+    dispatch(toggleDarkMode(false));
   };
 
   const handleChange = (event) => {
@@ -127,6 +127,7 @@ export default function Sidebar() {
         <Box
           sx={{
             display: "flex",
+            flexDirection: mobile ? "column" : tablet768px ? "column" : "row",
             gap: 1,
             p: 1.5,
             pb: 2,
@@ -161,18 +162,20 @@ export default function Sidebar() {
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+              justifyContent: "space-evenly",
               alignItem: "center",
               padding: 2,
-              width: 100,
+              width: "50%",
             }}
           >
             <LogoutIcon
               onClick={handleClick}
               sx={{
-                fontSize: mobile ? "18px" : tablet768px ? "20px" : "24px",
+                // fontSize: mobile ? "18px" : tablet768px ? "20px" : "24px",
+                fontSize: "2rem",
                 cursor: "pointer",
                 color: "#242424",
+                marginTop: 2,
               }}
             />
 

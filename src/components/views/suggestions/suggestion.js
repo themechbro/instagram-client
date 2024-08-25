@@ -15,8 +15,10 @@ export default function Suggestions() {
   const [users, setUsers] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [skip, setSkip] = useState(0);
+  const [following, setFollowing] = useState({});
   const limit = 4;
   const currentUserId = useSelector((state) => state.auth.user._id); // Adjust to your state structure
+  const isDarkMode = useSelector((state) => state.auth.isDarkMode);
 
   const fetchUsers = async (skip) => {
     try {
@@ -31,6 +33,21 @@ export default function Suggestions() {
       setSkip((prevSkip) => prevSkip + limit);
     } catch (error) {
       console.error("Error fetching users:", error);
+    }
+  };
+
+  const handleFollow = async (userId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/${userId}/follow`,
+        { followerId: currentUserId } // Make sure currentUserId is correctly defined
+      );
+      setFollowing((prevState) => ({
+        ...prevState,
+        [userId]: true, // Mark this user as followed
+      }));
+    } catch (error) {
+      console.error("Error following user:", error);
     }
   };
 
@@ -70,11 +87,32 @@ export default function Suggestions() {
               {/* Placeholder Avatar */}
             </ListItemDecorator>
             <ListItemContent>
-              <Typography level="title-sm">{user.username}</Typography>
-              <Typography level="body-sm" noWrap>
+              <Typography
+                level="title-sm"
+                sx={{ color: isDarkMode ? "#FFF" : "black" }}
+              >
+                {user.username}
+              </Typography>
+              <Typography
+                level="body-sm"
+                noWrap
+                sx={{ color: isDarkMode ? "#FFF" : "black" }}
+              >
                 {user.email}
               </Typography>
             </ListItemContent>
+            <Button
+              size="sm"
+              variant="solid"
+              color="primary"
+              onClick={() => handleFollow(user._id)}
+              disabled={following[user._id]} // Disable button if already following
+              sx={{
+                backgroundColor: following[user._id] ? "grey" : "primary.main",
+              }}
+            >
+              {following[user._id] ? "Following" : "Follow"}
+            </Button>
           </ListItem>
         ))}
       </List>
@@ -86,54 +124,3 @@ export default function Suggestions() {
     </Box>
   );
 }
-
-// import * as React from "react";
-// import Avatar from "@mui/joy/Avatar";
-// import Box from "@mui/joy/Box";
-// import List from "@mui/joy/List";
-// import ListItem from "@mui/joy/ListItem";
-// import ListItemContent from "@mui/joy/ListItemContent";
-// import ListItemDecorator from "@mui/joy/ListItemDecorator";
-// import Typography from "@mui/joy/Typography";
-
-// export default function Suggestions() {
-//   return (
-//     <Box sx={{ width: 320 }}>
-//       <Typography
-//         id="ellipsis-list-demo"
-//         level="body-xs"
-//         textTransform="uppercase"
-//         sx={{ letterSpacing: "0.15rem" }}
-//       >
-//         Inbox
-//       </Typography>
-//       <List
-//         aria-labelledby="ellipsis-list-demo"
-//         sx={{ "--ListItemDecorator-size": "56px" }}
-//       >
-//         <ListItem>
-//           <ListItemDecorator>
-//             <Avatar src="/static/images/avatar/1.jpg" />
-//           </ListItemDecorator>
-//           <ListItemContent>
-//             <Typography level="title-sm">Brunch this weekend?</Typography>
-//             <Typography level="body-sm" noWrap>
-//               I&apos;ll be in your neighborhood doing errands this Tuesday.
-//             </Typography>
-//           </ListItemContent>
-//         </ListItem>
-//         <ListItem>
-//           <ListItemDecorator>
-//             <Avatar src="/static/images/avatar/2.jpg" />
-//           </ListItemDecorator>
-//           <ListItemContent>
-//             <Typography level="title-sm">Summer BBQ</Typography>
-//             <Typography level="body-sm" noWrap>
-//               Wish I could come, but I&apos;m out of town this Friday.
-//             </Typography>
-//           </ListItemContent>
-//         </ListItem>
-//       </List>
-//     </Box>
-//   );
-// }

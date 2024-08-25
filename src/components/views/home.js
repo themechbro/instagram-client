@@ -63,8 +63,6 @@ export default function Home() {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: 5,
-                paddingTop: 6,
               }}
             >
               <Post />

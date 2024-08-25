@@ -7,8 +7,12 @@ import { Box, Button, TextField, Typography, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import ViewPostCard from "./viewPostCard";
 import CommentSection from "./commentSection";
+import { useMediaQuery } from "@mui/material";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 
 export default function ViewPostModal({ open, setOpen }) {
+  const tablet768px = useMediaQuery("(max-width: 800px)");
+  const mobile = useMediaQuery("(max-width: 425px)");
   const isDarkMode = useSelector((state) => state.auth.isDarkMode);
   console.log(isDarkMode);
   const modalStyles = {
@@ -26,12 +30,15 @@ export default function ViewPostModal({ open, setOpen }) {
 
   return (
     <Modal open={open} onClose={() => setOpen(false)}>
-      <ModalDialog layout="center">
+      <ModalDialog
+        layout="center"
+        sx={{ backgroundColor: isDarkMode ? "black" : "#FFF" }}
+      >
         <ModalClose onClick={() => setOpen(false)} />
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: mobile ? "column" : tablet768px ? "row" : "row",
             justifyContent: "space-evenly",
             padding: 5,
 
